@@ -24,11 +24,14 @@ def register():
 @app.route('/create_user')
 def create_user():
     payload = request.get_json()
+    print(payload)
     if "id" in payload:
         payload.pop("id")
-        status = UserModel.validate(payload, partial=("id",))
-        if status:
-            return jsonify(status), 400
-        user = UserModel.from_dict(payload)
-        db_create_user(user)
-        return jsonify(data=user.to_dict()), 201
+    status = UserModel.validate(payload, partial=("id",))
+    print(status)
+    if status:
+        return jsonify(status), 400
+    user = UserModel.from_dict(payload)
+    print(user)
+    db_create_user(user)
+    return jsonify(data=user.to_dict()), 201

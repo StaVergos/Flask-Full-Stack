@@ -13,20 +13,20 @@ def db_create_user(user: MongoClient) -> bool:
     users_auth.insert_one(user.__dict__)
 
 
-def db_update_book(user_id: str, book: Dict[str, Any]) -> bool:
+def db_update_user(user_id: str, user: Dict[str, Any]) -> bool:
     res = users_auth.update_one({"id": user_id}, {"$set": user})
     return res.modified_count > 0
 
 
-def db_list_books() -> List[UserModel]:
+def db_list_users() -> List[UserModel]:
     return [UserModel.from_dict(r) for r in users_auth.find()]
 
 
 def db_retrieve_user(user_id: str) -> UserModel:
-    _book = users_auth.find_one({"id": user_id})
-    return UserModel.from_dict(_book) if _book else None
+    _user = users_auth.find_one({"id": user_id})
+    return UserModel.from_dict(_user) if _user else None
 
 
-def db_delete_book(user_id: str) -> bool:
+def db_delete_user(user_id: str) -> bool:
     res = users_auth.delete_one({"id": user_id})
     return res.deleted_count > 0
